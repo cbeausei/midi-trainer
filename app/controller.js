@@ -13,6 +13,9 @@ class App {
     // Remove the start button.
     this.startDiv_ = document.getElementById('start');
     this.startDiv_.style.display = 'none';
+
+    // Start the sound player module.
+    this.soundPlayer_ = new SoundPlayer(DEFAULT_VOLUME);
   }
 
   /**
@@ -50,6 +53,7 @@ class App {
    */
   noteOn(note) {
     console.log(`Note ${note} played.`);
+    this.soundPlayer_.addNote(note);
   }
 
   /**
@@ -57,6 +61,7 @@ class App {
    */
   noteOff(note) {
     console.log(`Note ${note} released.`);
+    this.soundPlayer_.removeNote(note);
   }
 }
 
