@@ -1,5 +1,7 @@
 <html>
 <head>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
   <title>MIDI Trainer</title>
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
@@ -10,6 +12,7 @@
   <style>
     body {
       background-color: #555555;
+      color: rgba(255, 255, 255, 0.87);
       font-family: 'Open Sans', sans-serif;
       margin: 0;
     }
@@ -34,16 +37,20 @@
       background-color: #aaaaaa;
       cursor: pointer;
     }
+    [header] {
+      padding: 20px;
+    }
+    [heade-title] {
+      font-size: 30px;
+    }
     [section] {
-      border-top: solid 3px black;
+      border-top: solid 2px rgba(128, 128, 128, 0.87);
       padding: 10px;
     }
     [section-title] {
-      color: rgba(255, 255, 255, 0.87);
-      font-size: 25px;
+      font-size: 24px;
     }
     [part-title] {  
-      color: rgba(255, 255, 255, 0.87);
       font-size: 18px;
       margin: 10px 0;
     }
@@ -58,6 +65,9 @@
   <button abs-div app-button type="button" id="start" onclick="startApp()">
     START
   </button>
+  <div header>
+    <div header-title>🎹 MIDI Music Trainer</div>
+  </div>
   <div section hidden id="viz">
     <div section-title>Visualization</div>
     <div section-content>
