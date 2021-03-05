@@ -16,6 +16,16 @@ class App {
 
     // Start the sound player module.
     this.soundPlayer_ = new SoundPlayer(DEFAULT_VOLUME);
+
+    // Start visualization.
+    this.vizDiv_ = document.getElementById('viz');
+    this.vizDiv_.style.display = 'block';
+    this.vizTimeDiv_ = document.getElementById('viz-time');
+    this.vizFreqDiv_ = document.getElementById('viz-freq');
+    this.timeVisualizer_ = new SoundVisualizer(this.vizTimeDiv_, this.soundPlayer_);
+    this.timeVisualizer_.startTimeVisualization();
+    this.freqVisualizer_ = new SoundVisualizer(this.vizFreqDiv_, this.soundPlayer_);
+    this.freqVisualizer_.startFreqVisualization();
   }
 
   /**

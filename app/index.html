@@ -5,6 +5,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
   <script src="config.js"></script>
   <script src="sound-player.js"></script>
+  <script src="sound-visualizer.js"></script>
   <script src="controller.js"></script>
   <style>
     body {
@@ -12,7 +13,10 @@
       font-family: 'Open Sans', sans-serif;
       margin: 0;
     }
-    [app-div] {
+    [hidden] {
+      display: none;
+    }
+    [abs-div] {
       background-color: white;
       border: solid 3px black;
       border-radius: 12px;
@@ -30,11 +34,42 @@
       background-color: #aaaaaa;
       cursor: pointer;
     }
+    [section] {
+      border-top: solid 3px black;
+      padding: 10px;
+    }
+    [section-title] {
+      color: rgba(255, 255, 255, 0.87);
+      font-size: 25px;
+    }
+    [part-title] {  
+      color: rgba(255, 255, 255, 0.87);
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    [viz] {
+      border-radius: 10px;
+      height: 100px;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
-  <button app-div app-button type="button" id="start" onclick="startApp()">
+  <button abs-div app-button type="button" id="start" onclick="startApp()">
     START
   </button>
+  <div section hidden id="viz">
+    <div section-title>Visualization</div>
+    <div section-content>
+      <div part>
+        <div part-title>Time domain</div>
+        <canvas viz id="viz-time"></canvas>
+      </div>
+      <div part>
+        <div part-title>Frequencies</div>
+        <canvas viz id="viz-freq"></canvas>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

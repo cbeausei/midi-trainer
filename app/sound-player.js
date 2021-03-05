@@ -89,4 +89,14 @@ class SoundPlayer {
   getActiveNotes() {
     return Array.from(this.activeNotes_.keys());
   }
+
+  getByteTimeDomainData() {
+    this.analyser_.getByteTimeDomainData(this.dataArray_);
+    return this.dataArray_;
+  }
+
+  getByteFrequencyData() {
+    this.analyser_.getByteFrequencyData(this.dataArray_);
+    return this.dataArray_;
+  }
 }
