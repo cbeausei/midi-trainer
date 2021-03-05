@@ -27,6 +27,11 @@ class App {
     this.timeVisualizer_.play();
     this.freqVisualizer_ = new SoundVisualizer(this.vizFreqDiv_, this.soundPlayer_, 'freq');
     this.freqVisualizer_.play();
+
+    // Menu.
+    this.menuDiv_ = document.getElementById('menu');
+    this.menuIconDiv_ = document.getElementById('menu-icon');
+    this.menuIconDiv_.style.display = 'block';
   }
 
   /**
@@ -78,14 +83,14 @@ class App {
     const state = this.freqVisualizer_.switch();
     this.vizIcon_.innerHTML = `${state}_circle_outline`;
   }
+
+  openMenu() {
+    this.menuDiv_.style.display = 'block';    
+  }
+
+  closeMenu() {
+    this.menuDiv_.style.display = 'none';
+  }
 }
 
 const app = new App();
-
-function startApp() {
-  app.start();
-}
-
-function vizSwitch() {
-  app.vizSwitch();
-}

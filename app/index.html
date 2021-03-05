@@ -21,16 +21,18 @@
       display: none;
     }
     [abs-div] {
-      background-color: white;
-      border: solid 3px black;
+      background-color: #888888;
+      border: solid 2px #333333;
       border-radius: 12px;
       color: black;
       font-size: 20px;
-      left: 50%;
       outline: none;
-      padding: 30px 40px;
+      padding: 15px 25px;
       position: absolute;
       text-align: center;
+    }
+    [abs-center] {
+      left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
     }
@@ -47,6 +49,15 @@
     }
     [header-title] {
       font-size: 24px;
+    }
+    [header-menu] {
+      float: right;
+      margin-top: 4px;
+    }
+    [menu] {
+      position: absolute;
+      right: 20px;
+      top: 20px;
     }
     [section] {
       border-top: solid 2px rgba(128, 128, 128, 0.87);
@@ -67,17 +78,34 @@
   </style>
 </head>
 <body>
-  <button abs-div hover-background type="button" id="start" onclick="startApp()">
+  <!-- Absolute elements -->
+  <button abs-div abs-center hover-background type="button" id="start"
+          onclick="app.start()">
     START
   </button>
+  <div abs-div menu hidden id="menu"
+       onmouseleave="app.closeMenu()">
+    <a href="https://github.com/cbeausei/midi-trainer"
+       target="blank_">
+      GitHub
+    </a>
+  </div>
+
+  <!-- Main structure -->
   <div header>
-    <div header-title>🎹 MIDI Music Trainer</div>
+    <span header-title>🎹 MIDI Music Trainer</span>
+    <span hidden header-menu hover-color class="material-icons"
+          id="menu-icon"
+          onclick="app.openMenu()">
+      menu
+    </span>
   </div>
   <div section hidden id="viz">
     <div section-header>
       <span section-title style="vertical-align: middle;">Visualization</span>
       <span hover-color id="viz-icon" class="material-icons"
-            style="vertical-align: middle;" onclick="vizSwitch()">
+            style="vertical-align: middle; margin-left: 10px;"
+            onclick="app.vizSwitch()">
         pause_circle_outline
       </span>
     </div>
