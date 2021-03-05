@@ -79,7 +79,7 @@ class SoundVisualizer {
     this.context_.fillStyle = '#333333';
     this.context_.fillRect(0, 0, this.canvas_.width, this.canvas_.height);
     const fdata = this.soundPlayer_.getByteFrequencyData();
-    const barWidth = this.canvas_.width / fdata.length * 10;
+    const barWidth = this.canvas_.width / fdata.length * 15;
     let x = 0;
     for (let i = 0; i < fdata.length; ++i) {
       const barHeight = fdata[i] / 255 * this.canvas_.height;

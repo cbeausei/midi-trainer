@@ -50,15 +50,20 @@ class SoundPlayer {
     this.activeNotes_ = new Map();
     this.noteMergerNode_ = this.context_.createChannelMerger();
     this.volumeNode_ = this.context_.createGain();
-    this.analyser_ = this.context_.createAnalyser();
-    this.analyser_.fftSize = 8192;
-    const bufferLength = this.analyser_.frequencyBinCount;
-    this.dataArray_ = new Uint8Array(bufferLength);
+    this.analyserTime_ = this.context_.createAnalyser();
+    this.analyserTime_.fftSize = 4096;
+    const bufferLengthTime = this.analyserTime_.frequencyBinCount;
+    this.dataArrayTime_ = new Uint8Array(bufferLengthTime);
+    this.analyserFreq_ = this.context_.createAnalyser();
+    this.analyserFreq_.fftSize = 32768;
+    const bufferLengthFreq = this.analyserFreq_.frequencyBinCount;
+    this.dataArrayFreq_ = new Uint8Array(bufferLengthFreq);
 
     // Make the node chain.
     this.noteMergerNode_.connect(this.volumeNode_);
-    this.volumeNode_.connect(this.analyser_);
-    this.analyser_.connect(this.context_.destination);
+    this.volumeNode_.connect(this.analyserTime_);
+    this.analyserTime_.connect(this.analyserFreq_);
+    this.analyserFreq_.connect(this.context_.destination);
 
     // Immediately apply volume.
     this.volumeNode_.gain.setTargetAtTime(volume, 0, 0);
@@ -91,12 +96,12 @@ class SoundPlayer {
   }
 
   getByteTimeDomainData() {
-    this.analyser_.getByteTimeDomainData(this.dataArray_);
-    return this.dataArray_;
+    this.analyserTime_.getByteTimeDomainData(this.dataArrayTime_);
+    return this.dataArrayTime_;
   }
 
   getByteFrequencyData() {
-    this.analyser_.getByteFrequencyData(this.dataArray_);
-    return this.dataArray_;
+    this.analyserFreq_.getByteFrequencyData(this.dataArrayFreq_);
+    return this.dataArrayFreq_;
   }
 }
