@@ -59,9 +59,9 @@ class SoundVisualizer {
     const barWidth = this.canvas_.width / fdata.length * 10;
     let x = 0;
     for (let i = 0; i < fdata.length; ++i) {
-      const barHeight = fdata[i] / 2;
+      const barHeight = fdata[i] / 255 * this.canvas_.height;
       this.context_.fillStyle = `rgb(${100 + barHeight}, 50, 50)`;
-      this.context_.fillRect(x, this.canvas_.height - barHeight / 2, barWidth, barHeight);
+      this.context_.fillRect(x, this.canvas_.height - barHeight, barWidth, barHeight);
       x += barWidth;
     }
   }
