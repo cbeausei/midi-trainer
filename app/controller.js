@@ -20,12 +20,13 @@ class App {
     // Start visualization.
     this.vizDiv_ = document.getElementById('viz');
     this.vizDiv_.style.display = 'block';
+    this.vizIcon_ = document.getElementById('viz-icon');
     this.vizTimeDiv_ = document.getElementById('viz-time');
     this.vizFreqDiv_ = document.getElementById('viz-freq');
-    this.timeVisualizer_ = new SoundVisualizer(this.vizTimeDiv_, this.soundPlayer_);
-    this.timeVisualizer_.startTimeVisualization();
-    this.freqVisualizer_ = new SoundVisualizer(this.vizFreqDiv_, this.soundPlayer_);
-    this.freqVisualizer_.startFreqVisualization();
+    this.timeVisualizer_ = new SoundVisualizer(this.vizTimeDiv_, this.soundPlayer_, 'time');
+    this.timeVisualizer_.play();
+    this.freqVisualizer_ = new SoundVisualizer(this.vizFreqDiv_, this.soundPlayer_, 'freq');
+    this.freqVisualizer_.play();
   }
 
   /**
@@ -62,7 +63,6 @@ class App {
    * @param {number} note
    */
   noteOn(note) {
-    console.log(`Note ${note} played.`);
     this.soundPlayer_.addNote(note);
   }
 
@@ -70,8 +70,13 @@ class App {
    * @param {number} note
    */
   noteOff(note) {
-    console.log(`Note ${note} released.`);
     this.soundPlayer_.removeNote(note);
+  }
+
+  vizSwitch() {
+    this.timeVisualizer_.switch();
+    const state = this.freqVisualizer_.switch();
+    this.vizIcon_.innerHTML = `${state}_circle_outline`;
   }
 }
 
@@ -79,4 +84,8 @@ const app = new App();
 
 function startApp() {
   app.start();
+}
+
+function vizSwitch() {
+  app.vizSwitch();
 }

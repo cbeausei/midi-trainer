@@ -5,6 +5,7 @@
   <title>MIDI Trainer</title>
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="config.js"></script>
   <script src="sound-player.js"></script>
   <script src="sound-visualizer.js"></script>
@@ -33,8 +34,12 @@
       top: 50%;
       transform: translate(-50%, -50%);
     }
-    [app-button]:hover {
+    [hover-background]:hover {
       background-color: #aaaaaa;
+      cursor: pointer;
+    }
+    [hover-color]:hover {
+      color: red;
       cursor: pointer;
     }
     [header] {
@@ -62,14 +67,20 @@
   </style>
 </head>
 <body>
-  <button abs-div app-button type="button" id="start" onclick="startApp()">
+  <button abs-div hover-background type="button" id="start" onclick="startApp()">
     START
   </button>
   <div header>
     <div header-title>🎹 MIDI Music Trainer</div>
   </div>
   <div section hidden id="viz">
-    <div section-title>Visualization</div>
+    <div section-header>
+      <span section-title style="vertical-align: middle;">Visualization</span>
+      <span hover-color id="viz-icon" class="material-icons"
+            style="vertical-align: middle;" onclick="vizSwitch()">
+        pause_circle_outline
+      </span>
+    </div>
     <div section-content>
       <div part>
         <div part-title>Time domain</div>

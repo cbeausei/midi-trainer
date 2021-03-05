@@ -1,28 +1,51 @@
 class SoundVisualizer {
-  constructor(canvas, soundPlayer) {
+  constructor(canvas, soundPlayer, type) {
     this.canvas_ = canvas;
     this.context_ = canvas.getContext('2d');
     this.soundPlayer_ = soundPlayer;
-    this.stopped_ = false;
-  }
-
-  startTimeVisualization() {
-    this.context_.clearRect(0, 0, this.canvas_.width, this.canvas_.height);
-    this.context_.fillStyle = '#333333';
-    this.context_.strokeStyle = '#ffffff';
-    this.context_.lineWidth = 1;
-    this.drawTimeViz();
-  }
-
-  startFreqVisualization() {
-    this.context_.clearRect(0, 0, this.canvas_.width, this.canvas_.height);
-    this.context_.strokeStyle = '#ffffff';
-    this.context_.lineWidth = 1;
-    this.drawFreqViz();
-  }
-
-  stop() {
+    this.type_ = type;
     this.stopped_ = true;
+
+    switch(type) {
+      case 'time':
+        this.context_.clearRect(0, 0, this.canvas_.width, this.canvas_.height);
+        this.context_.fillStyle = '#333333';
+        this.context_.strokeStyle = '#ffffff';
+        this.context_.lineWidth = 1;
+        break;
+      case 'freq':
+      default:
+        this.context_.clearRect(0, 0, this.canvas_.width, this.canvas_.height);
+        this.context_.strokeStyle = '#ffffff';
+        this.context_.lineWidth = 1;
+    }
+  }
+
+  pause() {
+    this.stopped_ = true;
+  }
+
+  play() {
+    this.stopped_ = false;
+    switch(this.type_) {
+      case 'time':
+        this.drawTimeViz();
+        break;
+      case 'freq':
+      default:
+        this.drawFreqViz();
+    }
+  }
+
+  switch() {
+    switch(this.stopped_) {
+      case true:
+        this.play();
+        return 'pause';
+      case false:
+        this.pause();
+        return 'play';
+    }
   }
 
   drawTimeViz() {
