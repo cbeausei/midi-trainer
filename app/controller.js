@@ -15,7 +15,7 @@ class App {
     this.startDiv_.style.display = 'none';
 
     // Start the sound player module.
-    this.soundPlayer_ = new SoundPlayer(DEFAULT_VOLUME);
+    this.soundPlayer_ = new SoundPlayer(DEFAULT_VOLUME, DEFAULT_INSTRUMENT);
 
     // Start visualization.
     this.vizDiv_ = document.getElementById('viz');
