@@ -1,2 +1,3 @@
 const DEFAULT_VOLUME = 0.5;
 const DEFAULT_INSTRUMENT = 'piano';
+const DEFAULT_CHROMATIC_SCALE_CONVENTION = 'english';

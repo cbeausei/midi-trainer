@@ -7,10 +7,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="config.js"></script>
+  <script src="constants.js"></script>
   <script src="sound-player.js"></script>
   <script src="sound-visualizer.js"></script>
   <script src="controller.js"></script>
   <style>
+    html {
+      box-sizing: border-box;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
     body {
       background-color: #555555;
       color: rgba(255, 255, 255, 0.87);
@@ -61,10 +68,12 @@
     }
     [section] {
       border-top: solid 2px rgba(128, 128, 128, 0.87);
+      margin-bottom: 10px;
       padding: 10px 20px;
     }
     [section-title] {
       font-size: 20px;
+      margin-bottom: 10px;
     }
     [part-title] {  
       font-size: 16px;
@@ -74,6 +83,22 @@
       border-radius: 10px;
       height: 100px;
       width: 100%;
+    }
+    [notes] {
+      background-color: #333333;
+      border-radius: 10px;
+      height: 100px;
+      line-height: 90px;
+      text-align: center;
+      overflow: hidden;
+      padding: 5px;
+      width: 100%;
+    }
+    [note-name] {
+      font-size: 16px;
+    }
+    [note-octave] {
+      font-size: 10px;
     }
   </style>
 </head>
@@ -100,23 +125,34 @@
       menu
     </span>
   </div>
-  <div section hidden id="viz">
-    <div section-header>
-      <span section-title style="vertical-align: middle;">Visualization</span>
-      <span hover-color id="viz-icon" class="material-icons"
-            style="vertical-align: middle; margin-left: 10px;"
-            onclick="app.vizSwitch()">
-        pause_circle_outline
-      </span>
-    </div>
-    <div section-content>
-      <div part>
-        <div part-title>Time domain</div>
-        <canvas viz id="viz-time"></canvas>
+  <div sections hidden id="sections">
+    <!-- Visualization -->
+    <div section>
+      <div section-header>
+        <span section-title style="vertical-align: middle;">Visualization</span>
+        <span hover-color id="viz-icon" class="material-icons"
+              style="vertical-align: middle; margin-left: 10px;"
+              onclick="app.vizSwitch()">
+          pause_circle_outline
+        </span>
       </div>
+      <div section-content>
+        <div part>
+          <div part-title>Time domain</div>
+          <canvas viz id="viz-time"></canvas>
+        </div>
+        <div part>
+          <div part-title>Frequencies</div>
+          <canvas viz id="viz-freq"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Played notes -->
+    <div section>
+      <div section-header section-title>Notes</div>
       <div part>
-        <div part-title>Frequencies</div>
-        <canvas viz id="viz-freq"></canvas>
+        <div notes id="notes"></div>
       </div>
     </div>
   </div>

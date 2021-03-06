@@ -18,8 +18,8 @@ class App {
     this.soundPlayer_ = new SoundPlayer(DEFAULT_VOLUME, DEFAULT_INSTRUMENT);
 
     // Start visualization.
-    this.vizDiv_ = document.getElementById('viz');
-    this.vizDiv_.style.display = 'block';
+    this.sections_ = document.getElementById('sections');
+    this.sections_.style.display = 'block';
     this.vizIcon_ = document.getElementById('viz-icon');
     this.vizTimeDiv_ = document.getElementById('viz-time');
     this.vizFreqDiv_ = document.getElementById('viz-freq');
@@ -27,6 +27,10 @@ class App {
     this.timeVisualizer_.play();
     this.freqVisualizer_ = new SoundVisualizer(this.vizFreqDiv_, this.soundPlayer_, 'freq');
     this.freqVisualizer_.play();
+
+    // Played notes.
+    this.notesDiv_ = document.getElementById('notes');
+    this.chromaticScaleConvention_ = DEFAULT_CHROMATIC_SCALE_CONVENTION;
 
     // Menu.
     this.menuDiv_ = document.getElementById('menu');
@@ -69,6 +73,7 @@ class App {
    */
   noteOn(note) {
     this.soundPlayer_.addNote(note);
+    this.displayNotes();
   }
 
   /**
@@ -76,6 +81,21 @@ class App {
    */
   noteOff(note) {
     this.soundPlayer_.removeNote(note);
+    this.displayNotes();
+  }
+
+  displayNotes() {
+    const notes = this.soundPlayer_.getActiveNotes().sort().map(note => this.displayNote(note));
+    this.notesDiv_.innerHTML = notes.join(', ');
+  }
+
+  /**
+   * @param {number} note
+   */
+  displayNote(note) {
+    const notation = NOTE_NAMES.get(this.chromaticScaleConvention_)[note % 12];
+    const octave = Math.trunc(note / 12) - 1;
+    return `<span note-name>${notation}</span><span note-octave>${octave}</span>`;
   }
 
   vizSwitch() {
