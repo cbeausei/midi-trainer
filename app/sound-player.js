@@ -1,11 +1,6 @@
 const SMOOTH_DOWN = 1;
 const SMOOTH_END = 0.05;
 
-// Source: https://www.projectrhea.org/rhea/index.php/Fourier_analysis_in_Music.
-const INSTRUMENTS = new Map();
-INSTRUMENTS.set('piano', [1, 0.1, 0.33, 0.06, 0.05, 0.04, 0, 0.01]);
-INSTRUMENTS.set('guitar', [0.76, 0.52, 0.97, 0.09, 0.09, 0.08, 0, 0, 0.14, 0.05]);
-
 class ActiveNote {
   constructor(note, context, instrument) {
     this.context_ = context;
@@ -113,7 +108,7 @@ class SoundPlayer {
   }
 
   getInstrumentList() {
-    return Array.from(INSTRUMENTS.keys());
+    return Array.from(INSTRUMENTS.keys()).sort();
   }
 
   selectInstrument(instrument) {
