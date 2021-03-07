@@ -62,7 +62,9 @@
       font-size: 24px;
     }
     [header-menu] {
+      display: inline-block;
       float: right;
+      margin-left: 15px;
       margin-top: 4px;
     }
     [menu] {
@@ -140,6 +142,12 @@
           onclick="app.openMenu()">
       menu
     </span>
+    <div header-menu class="mdc-menu-surface--anchor"
+         hover-color onclick="app.openInstrumentMenu()">
+      <span id="instrument-menu-name" style="vertical-align: super;"></span>
+      <span class="material-icons">arrow_drop_down</span>
+      <div class="mdc-menu mdc-menu-surface" id="instrument-menu"></div>
+    </div>
   </div>
   <div sections hidden id="sections">
     <!-- Visualization -->

@@ -111,4 +111,12 @@ class SoundPlayer {
     this.analyserFreq_.getByteFrequencyData(this.dataArrayFreq_);
     return this.dataArrayFreq_;
   }
+
+  getInstrumentList() {
+    return Array.from(INSTRUMENTS.keys());
+  }
+
+  selectInstrument(instrument) {
+    this.instrument_ = instrument;
+  }
 }

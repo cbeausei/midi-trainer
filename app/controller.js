@@ -39,6 +39,10 @@ class App {
     // MDC elements.
     this.playVizTooltip_ = new mdc.tooltip.MDCTooltip(document.getElementById('play-viz-tooltip'));
     this.pauseVizTooltip_ = new mdc.tooltip.MDCTooltip(document.getElementById('pause-viz-tooltip'));
+    this.instrumentMenuElement_ = document.getElementById('instrument-menu');
+    this.instrumentMenuNameElement_ = document.getElementById('instrument-menu-name');
+    this.instrumentMenuNameElement_.innerHTML = DEFAULT_INSTRUMENT;
+    this.createInstrumentMenu();
   }
 
   /**
@@ -109,6 +113,32 @@ class App {
   pauseVisualization() {
     this.timeVisualizer_.pause();
     this.freqVisualizer_.pause();
+  }
+
+  createInstrumentMenu() {
+    let menuString = `<ul class="mdc-list" role="menu" aria-hidden="true"
+                          aria-orientation="vertical" tabindex="-1">`;
+    for (const instrument of this.soundPlayer_.getInstrumentList()) {
+      menuString += `<li class="mdc-list-item" role="menuitem"
+                         onclick="app.selectInstrument(event, '${instrument}')">
+                      <span class="mdc-list-item__ripple"></span>
+                      <span class="mdc-list-item__text">${instrument}</span>
+                    </li>`
+    }
+    menuString += `</ul>`;
+    this.instrumentMenuElement_.innerHTML = menuString;
+    this.instrumentMenu_ = new mdc.menu.MDCMenu(this.instrumentMenuElement_);
+  }
+
+  selectInstrument(event, instrument) {
+    event.stopPropagation();
+    this.soundPlayer_.selectInstrument(instrument);
+    this.instrumentMenuNameElement_.innerHTML = instrument;
+    this.instrumentMenu_.open = false;
+  }
+
+  openInstrumentMenu() {
+    this.instrumentMenu_.open = true;
   }
 
   openMenu() {
