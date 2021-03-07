@@ -26,6 +26,9 @@ class SoundVisualizer {
   }
 
   play() {
+    if (!this.stopped_) {
+      return;
+    }
     this.stopped_ = false;
     switch(this.type_) {
       case 'time':
@@ -34,17 +37,6 @@ class SoundVisualizer {
       case 'freq':
       default:
         this.drawFreqViz();
-    }
-  }
-
-  switch() {
-    switch(this.stopped_) {
-      case true:
-        this.play();
-        return 'pause';
-      case false:
-        this.pause();
-        return 'play';
     }
   }
 

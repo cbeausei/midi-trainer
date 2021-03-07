@@ -6,6 +6,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
+        rel="stylesheet">
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js">
+  </script>
   <script src="config.js"></script>
   <script src="constants.js"></script>
   <script src="sound-player.js"></script>
@@ -116,6 +120,18 @@
     </a>
   </div>
 
+  <!-- Tooltips -->
+  <div id="play-viz-tooltip" class="mdc-tooltip" role="tooltip" aria-hidden="true">
+    <div class="mdc-tooltip__surface">
+      play visualization
+    </div>
+  </div>
+  <div id="pause-viz-tooltip" class="mdc-tooltip" role="tooltip" aria-hidden="true">
+    <div class="mdc-tooltip__surface">
+      pause visualization
+    </div>
+  </div>
+
   <!-- Main structure -->
   <div header>
     <span header-title>🎹 MIDI Music Trainer</span>
@@ -131,9 +147,16 @@
       <div section-header>
         <span section-title style="vertical-align: middle;">Visualization</span>
         <span hover-color id="viz-icon" class="material-icons"
-              style="vertical-align: middle; margin-left: 10px;"
-              onclick="app.vizSwitch()">
-          pause_circle_outline
+              style="vertical-align: middle; margin-left: 15px;"
+              aria-describedby="play-viz-tooltip"
+              onclick="app.playVisualization()">
+          play_arrow
+        </span>
+        <span hover-color id="viz-icon" class="material-icons"
+              style="vertical-align: middle;"
+              aria-describedby="pause-viz-tooltip"
+              onclick="app.pauseVisualization()">
+          pause
         </span>
       </div>
       <div section-content>

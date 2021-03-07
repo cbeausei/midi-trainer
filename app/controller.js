@@ -20,7 +20,6 @@ class App {
     // Start visualization.
     this.sections_ = document.getElementById('sections');
     this.sections_.style.display = 'block';
-    this.vizIcon_ = document.getElementById('viz-icon');
     this.vizTimeDiv_ = document.getElementById('viz-time');
     this.vizFreqDiv_ = document.getElementById('viz-freq');
     this.timeVisualizer_ = new SoundVisualizer(this.vizTimeDiv_, this.soundPlayer_, 'time');
@@ -36,6 +35,10 @@ class App {
     this.menuDiv_ = document.getElementById('menu');
     this.menuIconDiv_ = document.getElementById('menu-icon');
     this.menuIconDiv_.style.display = 'block';
+
+    // MDC elements.
+    this.playVizTooltip_ = new mdc.tooltip.MDCTooltip(document.getElementById('play-viz-tooltip'));
+    this.pauseVizTooltip_ = new mdc.tooltip.MDCTooltip(document.getElementById('pause-viz-tooltip'));
   }
 
   /**
@@ -98,10 +101,14 @@ class App {
     return `<span note-name>${notation}</span><span note-octave>${octave}</span>`;
   }
 
-  vizSwitch() {
-    this.timeVisualizer_.switch();
-    const state = this.freqVisualizer_.switch();
-    this.vizIcon_.innerHTML = `${state}_circle_outline`;
+  playVisualization() {
+    this.timeVisualizer_.play();
+    this.freqVisualizer_.play();
+  }
+
+  pauseVisualization() {
+    this.timeVisualizer_.pause();
+    this.freqVisualizer_.pause();
   }
 
   openMenu() {
