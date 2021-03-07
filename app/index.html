@@ -61,9 +61,11 @@
     [header-title] {
       font-size: 24px;
     }
+    [header-menus] {
+      float: right;
+    }
     [header-menu] {
       display: inline-block;
-      float: right;
       margin-left: 15px;
       margin-top: 4px;
     }
@@ -106,6 +108,12 @@
     [note-octave] {
       font-size: 10px;
     }
+    [footer] {
+      display: inline-block;
+      bottom: 20px;
+      left: 20px;
+      position: absolute;
+    }
   </style>
 </head>
 <body>
@@ -116,6 +124,8 @@
   </button>
   <div abs-div menu hidden id="menu"
        onmouseleave="app.closeMenu()">
+  </div>
+  <div footer>
     <a href="https://github.com/cbeausei/midi-trainer"
        target="blank_">
       GitHub
@@ -137,16 +147,13 @@
   <!-- Main structure -->
   <div header>
     <span header-title>🎹 MIDI Music Trainer</span>
-    <span hidden header-menu hover-color class="material-icons"
-          id="menu-icon"
-          onclick="app.openMenu()">
-      menu
-    </span>
-    <div header-menu class="mdc-menu-surface--anchor"
-         hover-color onclick="app.openInstrumentMenu()">
-      <span id="instrument-menu-name" style="vertical-align: super;"></span>
-      <span class="material-icons">arrow_drop_down</span>
-      <div class="mdc-menu mdc-menu-surface" id="instrument-menu"></div>
+    <div header-menus hidden id="header-menus">
+      <div header-menu class="mdc-menu-surface--anchor"
+           hover-color onclick="app.openInstrumentMenu()">
+        <span id="instrument-menu-name" style="vertical-align: super;"></span>
+        <span class="material-icons">arrow_drop_down</span>
+        <div class="mdc-menu mdc-menu-surface" id="instrument-menu"></div>
+      </div>
     </div>
   </div>
   <div sections hidden id="sections">

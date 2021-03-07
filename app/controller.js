@@ -32,9 +32,8 @@ class App {
     this.chromaticScaleConvention_ = DEFAULT_CHROMATIC_SCALE_CONVENTION;
 
     // Menu.
-    this.menuDiv_ = document.getElementById('menu');
-    this.menuIconDiv_ = document.getElementById('menu-icon');
-    this.menuIconDiv_.style.display = 'block';
+    this.headerMenus_ = document.getElementById('header-menus');
+    this.headerMenus_.style.display = 'inline-block';
 
     // MDC elements.
     this.playVizTooltip_ = new mdc.tooltip.MDCTooltip(document.getElementById('play-viz-tooltip'));
@@ -139,14 +138,6 @@ class App {
 
   openInstrumentMenu() {
     this.instrumentMenu_.open = true;
-  }
-
-  openMenu() {
-    this.menuDiv_.style.display = 'block';    
-  }
-
-  closeMenu() {
-    this.menuDiv_.style.display = 'none';
   }
 }
 
