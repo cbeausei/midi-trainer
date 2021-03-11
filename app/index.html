@@ -14,7 +14,6 @@
   <script src="constants.js"></script>
   <script src="sound-player.js"></script>
   <script src="sound-visualizer.js"></script>
-  <script src="controller.js"></script>
   <style>
     html {
       box-sizing: border-box;
@@ -87,6 +86,9 @@
       font-size: 16px;
       margin: 10px 0;
     }
+    [part-content] {
+      font-size: 13px;
+    }
     [viz] {
       border-radius: 10px;
       height: 100px;
@@ -118,13 +120,6 @@
 </head>
 <body>
   <!-- Absolute elements -->
-  <button abs-div abs-center hover-background type="button" id="start"
-          onclick="app.start()">
-    START
-  </button>
-  <div abs-div menu hidden id="menu"
-       onmouseleave="app.closeMenu()">
-  </div>
   <div footer>
     <a href="https://github.com/cbeausei/midi-trainer"
        target="blank_">
@@ -147,7 +142,7 @@
   <!-- Main structure -->
   <div header>
     <span header-title>🎹 MIDI Music Trainer</span>
-    <div header-menus hidden id="header-menus">
+    <div header-menus>
       <div header-menu class="mdc-menu-surface--anchor"
            hover-color onclick="app.openInstrumentMenu()">
         <span id="instrument-menu-name" style="vertical-align: super;"></span>
@@ -156,7 +151,29 @@
       </div>
     </div>
   </div>
-  <div sections hidden id="sections">
+  <div sections>
+    <!-- Input -->
+    <div section>
+      <div section-header>
+        <span section-title>Input</span>
+      </div>
+      <div section-content>
+        <div part>
+          <div part-title>MIDI device</div>
+          <div part-content>
+            <div hover-color class="mdc-menu-surface--anchor" onclick="app.openMIDIDeviceMenu()">
+              <span id="midi-device-menu-name">Select a MIDI device</span>
+              <span class="material-icons"
+                    style="vertical-align: middle; margin-top: -4px">
+                arrow_drop_down
+              </span>
+              <div class="mdc-menu mdc-menu-surface" id="midi-device-menu"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Visualization -->
     <div section>
       <div section-header>
@@ -195,4 +212,5 @@
     </div>
   </div>
 </body>
+<script src="controller.js"></script>
 </html>

@@ -1,25 +1,9 @@
 class App {
-  async start() {
-    // Request access to a MIDI connected keyboard.
-    const access = await navigator.requestMIDIAccess();
-    const inputs = access.inputs;
-    for (const input of inputs.values()) {
-      // Select first one.
-      // TODO: let the user select it in case of multiple ones.
-      this.initMidi(input);
-      break;
-    }
-
-    // Remove the start button.
-    this.startDiv_ = document.getElementById('start');
-    this.startDiv_.style.display = 'none';
-
+  constructor() {
     // Start the sound player module.
     this.soundPlayer_ = new SoundPlayer(DEFAULT_VOLUME, DEFAULT_INSTRUMENT);
 
     // Start visualization.
-    this.sections_ = document.getElementById('sections');
-    this.sections_.style.display = 'block';
     this.vizTimeDiv_ = document.getElementById('viz-time');
     this.vizFreqDiv_ = document.getElementById('viz-freq');
     this.timeVisualizer_ = new SoundVisualizer(this.vizTimeDiv_, this.soundPlayer_, 'time');
@@ -31,10 +15,6 @@ class App {
     this.notesDiv_ = document.getElementById('notes');
     this.chromaticScaleConvention_ = DEFAULT_CHROMATIC_SCALE_CONVENTION;
 
-    // Menu.
-    this.headerMenus_ = document.getElementById('header-menus');
-    this.headerMenus_.style.display = 'inline-block';
-
     // MDC elements.
     this.playVizTooltip_ = new mdc.tooltip.MDCTooltip(document.getElementById('play-viz-tooltip'));
     this.pauseVizTooltip_ = new mdc.tooltip.MDCTooltip(document.getElementById('pause-viz-tooltip'));
@@ -42,6 +22,8 @@ class App {
     this.instrumentMenuNameElement_ = document.getElementById('instrument-menu-name');
     this.instrumentMenuNameElement_.innerHTML = DEFAULT_INSTRUMENT;
     this.createInstrumentMenu();
+    this.MIDIDeviceMenuElement_ = document.getElementById('midi-device-menu');
+    this.MIDIDeviceMenuNameElement_ = document.getElementById('midi-device-menu-name');
   }
 
   /**
@@ -138,6 +120,41 @@ class App {
 
   openInstrumentMenu() {
     this.instrumentMenu_.open = true;
+  }
+
+  async createMIDIDeviceMenu() {
+    let menuString = `<ul class="mdc-list" role="menu" aria-hidden="true"
+                          aria-orientation="vertical" tabindex="-1">`;
+    const access = await navigator.requestMIDIAccess();
+    const inputs = access.inputs;
+    for (const input of inputs.values()) {
+      menuString += `<li class="mdc-list-item" role="menuitem"
+                         onclick="app.selectMIDIDevice(event, '${input.id}', '${input.name}')">
+                      <span class="mdc-list-item__ripple"></span>
+                      <span class="mdc-list-item__text">${input.name}</span>
+                    </li>`
+    }
+    menuString += `</ul>`;
+    this.MIDIDeviceMenuElement_.innerHTML = menuString;
+    this.MIDIDeviceMenu_ = new mdc.menu.MDCMenu(this.MIDIDeviceMenuElement_);
+  }
+
+  async selectMIDIDevice(event, deviceId, deviceName) {
+    event.stopPropagation();
+    const access = await navigator.requestMIDIAccess();
+    const inputs = access.inputs;
+    for (const input of inputs.values()) {
+      if (input.id === deviceId) {
+        this.initMidi(input);
+      }
+    }
+    this.MIDIDeviceMenuNameElement_.innerHTML = deviceName;
+    this.MIDIDeviceMenu_.open = false;
+  }
+
+  async openMIDIDeviceMenu() {
+    await this.createMIDIDeviceMenu();
+    this.MIDIDeviceMenu_.open = true;
   }
 }
 
