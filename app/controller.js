@@ -15,15 +15,23 @@ class App {
     this.notesDiv_ = document.getElementById('notes');
     this.chromaticScaleConvention_ = DEFAULT_CHROMATIC_SCALE_CONVENTION;
 
-    // MDC elements.
+    // Visualization.
     this.playVizTooltip_ = new mdc.tooltip.MDCTooltip(document.getElementById('play-viz-tooltip'));
     this.pauseVizTooltip_ = new mdc.tooltip.MDCTooltip(document.getElementById('pause-viz-tooltip'));
+    
+    // Instrument selection.
     this.instrumentMenuElement_ = document.getElementById('instrument-menu');
     this.instrumentMenuNameElement_ = document.getElementById('instrument-menu-name');
     this.instrumentMenuNameElement_.innerHTML = DEFAULT_INSTRUMENT;
     this.createInstrumentMenu();
-    this.MIDIDeviceMenuElement_ = document.getElementById('midi-device-menu');
-    this.MIDIDeviceMenuNameElement_ = document.getElementById('midi-device-menu-name');
+    
+    // Input MIDI device selection.
+    this.MidiDeviceMenuElement_ = document.getElementById('midi-device-menu');
+    this.MidiDeviceMenuNameElement_ = document.getElementById('midi-device-menu-name');
+
+    // MIDI parser.
+    const midiInput_ = document.getElementById('midi-file-input');
+    MidiParser.parse(midiInput_, (midi) => this.loadMidi(midi));
   }
 
   /**
@@ -122,24 +130,24 @@ class App {
     this.instrumentMenu_.open = true;
   }
 
-  async createMIDIDeviceMenu() {
+  async createMidiDeviceMenu() {
     let menuString = `<ul class="mdc-list" role="menu" aria-hidden="true"
                           aria-orientation="vertical" tabindex="-1">`;
     const access = await navigator.requestMIDIAccess();
     const inputs = access.inputs;
     for (const input of inputs.values()) {
       menuString += `<li class="mdc-list-item" role="menuitem"
-                         onclick="app.selectMIDIDevice(event, '${input.id}', '${input.name}')">
+                         onclick="app.selectMidiDevice(event, '${input.id}', '${input.name}')">
                       <span class="mdc-list-item__ripple"></span>
                       <span class="mdc-list-item__text">${input.name}</span>
                     </li>`
     }
     menuString += `</ul>`;
-    this.MIDIDeviceMenuElement_.innerHTML = menuString;
-    this.MIDIDeviceMenu_ = new mdc.menu.MDCMenu(this.MIDIDeviceMenuElement_);
+    this.MidiDeviceMenuElement_.innerHTML = menuString;
+    this.MidiDeviceMenu_ = new mdc.menu.MDCMenu(this.MidiDeviceMenuElement_);
   }
 
-  async selectMIDIDevice(event, deviceId, deviceName) {
+  async selectMidiDevice(event, deviceId, deviceName) {
     event.stopPropagation();
     const access = await navigator.requestMIDIAccess();
     const inputs = access.inputs;
@@ -148,13 +156,75 @@ class App {
         this.initMidi(input);
       }
     }
-    this.MIDIDeviceMenuNameElement_.innerHTML = deviceName;
-    this.MIDIDeviceMenu_.open = false;
+    this.MidiDeviceMenuNameElement_.innerHTML = deviceName;
+    this.MidiDeviceMenu_.open = false;
   }
 
-  async openMIDIDeviceMenu() {
-    await this.createMIDIDeviceMenu();
-    this.MIDIDeviceMenu_.open = true;
+  async openMidiDeviceMenu() {
+    await this.createMidiDeviceMenu();
+    this.MidiDeviceMenu_.open = true;
+  }
+
+  loadMidi(midi) {
+    console.log(midi);
+    const tickPerQuarter = midi.timeDivision;
+    let msPerQuarter = 500;
+    for (let e of midi.track[0].event) {
+      if (e.type === 255 && e.metaType === 81) {
+        msPerQuarter = e.data / 1000;
+      }
+    }
+    this.midiTicksPerMs_ = tickPerQuarter / msPerQuarter;
+    this.midiCurrentEventIndex_ = 0;
+    this.midiEvents_ = midi.track[0].event;
+    this.midiPlaying_ = false;
+    this.midiTicksPlayed_ = 0;
+    this.midiStartTimeMs_ = null;
+    this.midiTickCount_ = 0;
+    // TODO(remove).
+    this.startMidi();
+  }
+
+  startMidi() {
+    this.midiStartTimeMs_ = Date.now();
+    this.midiPlaying_ = true;
+    this.midiTimePlayedMs_ = 0;
+    this.midiCurrentEventIndex_ = 0;
+    this.midiTickCount_ = 0;
+    this.refreshMidi();
+  }
+
+  pauseMidi() {
+    this.midiTimePlayedMs_ = Date.now() - this.midiStartTimeMs_;
+    this.midiPlaying_ = false;
+  }
+
+  refreshMidi() {
+    if (!this.midiPlaying_) {
+      return;
+    }
+    requestAnimationFrame(() => this.refreshMidi());
+    const currentTimeMs = Date.now() - this.midiStartTimeMs_;
+    while (this.midiCurrentEventIndex_ < this.midiEvents_.length) {
+      const e = this.midiEvents_[this.midiCurrentEventIndex_];
+      const ticks = this.midiTickCount_ + e.deltaTime;
+      const playTimeMs = ticks / this.midiTicksPerMs_;
+      console.log(`${playTimeMs} - ${currentTimeMs}`);
+      if (playTimeMs > currentTimeMs) {
+        break;
+      }
+      this.midiTickCount_ += e.deltaTime;
+      this.midiCurrentEventIndex_ += 1;
+      if (e.type !== 8 && e.type !== 9) {
+        continue;
+      }
+      console.log(e.data);
+      if (e.type === 9 & e.data[1] !== 0) {
+        this.noteOn(e.data[0]);
+      } else {
+        this.noteOff(e.data[0]);
+      }
+    }
   }
 }
 

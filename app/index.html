@@ -14,6 +14,8 @@
   <script src="constants.js"></script>
   <script src="sound-player.js"></script>
   <script src="sound-visualizer.js"></script>
+  <!-- Origin: https://github.com/colxi/midi-parser-js/ -->
+  <script src="https://colxi.info/midi-parser-js/src/main.js"></script>
   <style>
     html {
       box-sizing: border-box;
@@ -40,6 +42,11 @@
       padding: 15px 25px;
       position: absolute;
       text-align: center;
+    }
+    [app-button] {
+      border: solid 1px rgba(255, 255, 255, 0.87);
+      border-radius: 7px;
+      padding: 7px 14px;
     }
     [abs-center] {
       left: 50%;
@@ -161,7 +168,7 @@
         <div part>
           <div part-title>MIDI device</div>
           <div part-content>
-            <div hover-color class="mdc-menu-surface--anchor" onclick="app.openMIDIDeviceMenu()">
+            <div hover-color class="mdc-menu-surface--anchor" onclick="app.openMidiDeviceMenu()">
               <span id="midi-device-menu-name">Select a MIDI device</span>
               <span class="material-icons"
                     style="vertical-align: middle; margin-top: -4px">
@@ -169,6 +176,15 @@
               </span>
               <div class="mdc-menu mdc-menu-surface" id="midi-device-menu"></div>
             </div>
+          </div>
+        </div>
+        <div part>
+          <div part-title>MIDI file</div>
+          <div part-content>
+            <input type="file" id="midi-file-input" hidden>
+            <label for="midi-file-input" app-button hover-color id="upload-midi-button">
+              Upload MIDI file
+            </label>
           </div>
         </div>
       </div>
