@@ -1,7 +1,10 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
   <meta content="utf-8" http-equiv="encoding">
+  <meta name="Description" content="MIDI trainer for music theory enthousiasts.">
   <title>MIDI Trainer</title>
   <link rel="manifest" href="manifest.json">
   <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -16,7 +19,7 @@
   <script src="sound-player.js"></script>
   <script src="sound-visualizer.js"></script>
   <!-- Origin: https://github.com/colxi/midi-parser-js/ -->
-  <script src="https://colxi.info/midi-parser-js/src/main.js"></script>
+  <script src="https://colxi.info/midi-parser-js/src/main.js" async></script>
   <script src="controller.js"></script>
   <style>
     html {
@@ -124,6 +127,10 @@
       bottom: 20px;
       left: 20px;
       position: absolute;
+    }
+    [footer] > a {
+      color: white;
+      text-decoration: underline;
     }
   </style>
 </head>
