@@ -30,37 +30,33 @@
       box-sizing: inherit;
     }
     body {
-      background-color: #555555;
-      color: rgba(255, 255, 255, 0.87);
+      --bg1: #555555;
+      --bg2: #333333;
+      --bg-hover: #aaaaaa;
+      --theme1: rgba(255, 255, 255, 0.87);
+      --theme2: rgba(128, 128, 128, 0.87);
+      --text1: 24px;
+      --text2: 20px;
+      --text3: 16px;
+      --text4: 13px;
+      --text-sub: 10px;
+      --border1: solid 1px var(--theme1);
+      --border-section: solid 2px var(--theme2);
+      background-color: var(--bg1);
+      color: var(--theme1);
       font-family: 'Open Sans', sans-serif;
       margin: 0;
     }
     [hidden] {
       display: none;
     }
-    [abs-div] {
-      background-color: rgba(255, 255, 255, 0.87);
-      border: solid 2px #333333;
-      border-radius: 12px;
-      color: black;
-      font-size: 20px;
-      outline: none;
-      padding: 15px 25px;
-      position: absolute;
-      text-align: center;
-    }
     [app-button] {
-      border: solid 1px rgba(255, 255, 255, 0.87);
+      border: var(--border1);
       border-radius: 7px;
       padding: 7px 14px;
     }
-    [abs-center] {
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
     [hover-background]:hover {
-      background-color: #aaaaaa;
+      background-color: var(--bg-hover);
       cursor: pointer;
     }
     [hover-color]:hover {
@@ -71,7 +67,7 @@
       padding: 20px;
     }
     [header-title] {
-      font-size: 24px;
+      font-size: var(--text1);
     }
     [header-menus] {
       float: right;
@@ -87,20 +83,20 @@
       top: 20px;
     }
     [section] {
-      border-top: solid 2px rgba(128, 128, 128, 0.87);
+      border-top: var(--border-section);
       margin-bottom: 10px;
       padding: 10px 20px;
     }
     [section-title] {
-      font-size: 20px;
+      font-size: var(--text2);
       margin-bottom: 10px;
     }
     [part-title] {  
-      font-size: 16px;
+      font-size: var(--text3);
       margin: 10px 0;
     }
     [part-content] {
-      font-size: 13px;
+      font-size: var(--text4);
     }
     [viz] {
       border-radius: 10px;
@@ -108,7 +104,7 @@
       width: 100%;
     }
     [notes] {
-      background-color: #333333;
+      background-color: var(--bg2);
       border-radius: 10px;
       height: 100px;
       line-height: 90px;
@@ -118,10 +114,10 @@
       width: 100%;
     }
     [note-name] {
-      font-size: 16px;
+      font-size: var(--text3);
     }
     [note-octave] {
-      font-size: 10px;
+      font-size: var(--text-sub);
     }
     [footer] {
       display: inline-block;
